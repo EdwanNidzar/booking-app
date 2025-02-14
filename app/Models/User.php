@@ -43,4 +43,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function penginapans()
+    {
+        return $this->hasMany(Penginapan::class, 'host_id');
+    }
 }
