@@ -22,4 +22,9 @@ class Penginapan extends Model
     {
         return $this->belongsTo(User::class, 'host_id');
     }
+
+    public function properties()
+    {
+        return $this->hasMany(Propertie::class, 'penginapan_id');
+    }
 }

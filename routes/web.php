@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PenginapanController;
+use App\Http\Controllers\PropertieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('penginapan', PenginapanController::class)->middleware('auth');
+
+Route::resource('properties', PropertieController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
