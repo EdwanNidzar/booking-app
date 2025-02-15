@@ -27,4 +27,9 @@ class Penginapan extends Model
     {
         return $this->hasMany(Propertie::class, 'penginapan_id');
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'penginapan_id');
+    }
 }

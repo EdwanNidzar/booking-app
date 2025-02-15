@@ -5,6 +5,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PenginapanController;
 use App\Http\Controllers\PropertieController;
+use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\BookingController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +20,11 @@ use App\Http\Controllers\PropertieController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingPageController::class, 'index'])->name('landing-page');
+Route::post('/booking/{id}', [LandingPageController::class, 'booking'])->name('booking');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return Auth::check() && Auth::user()->hasRole('user') ? redirect()->route('landing-page') : view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -38,5 +40,12 @@ Route::middleware('auth')->group(function () {
 Route::resource('penginapan', PenginapanController::class)->middleware('auth');
 
 Route::resource('properties', PropertieController::class)->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::patch('bookings/{booking}/approved', [BookingController::class, 'updateStatusApproved'])->name('bookings.approved');
+    Route::patch('bookings/{booking}/rejected', [BookingController::class, 'updateStatusRejected'])->name('bookings.rejected');
+});
 
 require __DIR__.'/auth.php';
