@@ -7,10 +7,17 @@
     <h1 class="text-2xl font-semibold text-gray-800">Detail Properti</h1>
 
     <div class="mt-4">
-      <p><strong>Nama Penginapan:</strong> {{ $propertie->penginapan->nama_penginapan }}</p>
-      <p><strong>Tipe:</strong> {{ $propertie->type }}</p>
-      <p><strong>Tempat Tidur:</strong> {{ $propertie->beds }}</p>
-      <p><strong>Kamar Mandi:</strong> {{ $propertie->bathrooms }}</p>
+      <p><strong>Jenis:</strong> {{ ucfirst($propertie->jenis) }}</p>
+
+      @if ($propertie->jenis === 'penginapan' && $propertie->penginapan)
+        <p><strong>Nama Penginapan:</strong> {{ $propertie->penginapan->nama_penginapan }}</p>
+        <p><strong>Tipe:</strong> {{ $propertie->type }}</p>
+        <p><strong>Tempat Tidur:</strong> {{ $propertie->beds }}</p>
+        <p><strong>Kamar Mandi:</strong> {{ $propertie->bathrooms }}</p>
+      @elseif ($propertie->jenis === 'aula' && $propertie->aula)
+        <p><strong>Nama Aula:</strong> {{ $propertie->aula->nama_aula }}</p>
+      @endif
+
       <p><strong>Fasilitas:</strong> {{ $propertie->facilities }}</p>
       <p><strong>Maksimal Tamu:</strong> {{ $propertie->max_guest }}</p>
     </div>

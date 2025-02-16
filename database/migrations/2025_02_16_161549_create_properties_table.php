@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('penginapan_id')->constrained('penginapans');
-            $table->enum('type', ['kamar', 'villa', 'apartemen']);
-            $table->string('beds');
-            $table->string('bathrooms');
+            $table->enum('jenis', ['penginapan', 'aula']);
+            $table->foreignId('penginapan_id')->nullable()->constrained('penginapans')->onDelete('cascade');
+            $table->foreignId('aula_id')->nullable()->constrained('aulas')->onDelete('cascade');
+            $table->enum('type', ['kamar', 'villa', 'apartemen'])->nullable();
+            $table->integer('beds')->nullable();
+            $table->integer('bathrooms')->nullable();
             $table->text('facilities');
-            $table->string('max_guest');
+            $table->integer('max_guest');
             $table->timestamps();
         });
     }

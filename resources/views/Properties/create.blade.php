@@ -11,79 +11,137 @@
         <form action="{{ route('properties.store') }}" method="POST" autocomplete="off">
           @csrf
 
-          <!-- Nama Properti -->
-          <div class="mt-4">
+          <!-- Pilih Jenis -->
+          <div class="mb-4">
+            <label for="jenis" class="block text-sm font-medium text-gray-700">Jenis</label>
+            <select id="jenis" name="jenis" class="w-full border rounded p-2">
+              <option value="">Pilih Jenis</option>
+              <option value="penginapan">Penginapan</option>
+              <option value="aula">Aula</option>
+            </select>            
+          </div>
+
+          <!-- Pilih Penginapan -->
+          <div class="mt-4" id="penginapan_field">
             <x-input-label for="penginapan_id" :value="__('Nama Penginapan')" />
-            <select name="penginapan_id" id="penginapan_id"
-              class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 focus-within:text-primary-600"
-              required>
+            <select name="penginapan_id" id="penginapan_id" class="block w-full border-gray-300 rounded-md shadow-sm">
               <option value="" selected disabled>Pilih Penginapan</option>
               @foreach ($penginapans as $penginapan)
-                <option value="{{ $penginapan->id }}" {{ old('penginapan_id') == $penginapan->id ? 'selected' : '' }}>
-                  {{ $penginapan->nama_penginapan }}
-                </option>
+                <option value="{{ $penginapan->id }}">{{ $penginapan->nama_penginapan }}</option>
               @endforeach
             </select>
           </div>
 
-          <!-- Tipe -->
-          <div class="mt-4">
-            <x-input-label for="type" :value="__('Type')" />
-            <select name="type" id="type"
-              class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 focus-within:text-primary-600"
-              required>
-              <option value="" selected disabled>Pilih Tipe Properti</option>
-              <option value="kamar" {{ old('type') == 'kamar' ? 'selected' : '' }}>Kamar</option>
-              <option value="villa" {{ old('type') == 'villa' ? 'selected' : '' }}>Villa</option>
-              <option value="apartemen" {{ old('type') == 'apartemen' ? 'selected' : '' }}>Apartemen</option>
+
+          <!-- Pilih Aula -->
+          <div class="mt-4" id="aula_field" style="display: none;">
+            <x-input-label for="aula_id" :value="__('Nama Aula')" />
+            <select name="aula_id" id="aula_id" class="block w-full border-gray-300 rounded-md shadow-sm">
+              <option value="" selected disabled>Pilih Aula</option>
+              @foreach ($aulas as $aula)
+                <option value="{{ $aula->id }}">{{ $aula->nama_aula }}</option>
+              @endforeach
             </select>
-            <x-input-error :messages="$errors->get('type')" class="mt-2" />
           </div>
 
-          <!-- Jumlah Tempat Tidur -->
-          <div class="mt-4">
-            <x-input-label for="beds" :value="__('Jumlah Tempat Tidur')" />
-            <x-text-input type="number" id="beds" name="beds" class="block w-full" value="{{ old('beds') }}"
-              required />
-            <x-input-error :messages="$errors->get('beds')" class="mt-2" />
+
+          <!-- Tipe (Hanya untuk Penginapan) -->
+          <div class="mt-4" id="type_field">
+            <label for="type" class="block text-sm font-medium text-gray-700">Tipe Properti</label>
+            <select name="type" id="type" class="block w-full border-gray-300 rounded-md">
+              <option value="" selected disabled>Pilih Tipe Properti</option>
+              <option value="kamar">Kamar</option>
+              <option value="villa">Villa</option>
+              <option value="apartemen">Apartemen</option>
+            </select>
           </div>
 
-          <!-- Jumlah Kamar Mandi -->
-          <div class="mt-4">
-            <x-input-label for="bathrooms" :value="__('Jumlah Kamar Mandi')" />
-            <x-text-input type="number" id="bathrooms" name="bathrooms" class="block w-full"
-              value="{{ old('bathrooms') }}" required />
-            <x-input-error :messages="$errors->get('bathrooms')" class="mt-2" />
+          <!-- Jumlah Tempat Tidur (Hanya untuk Penginapan) -->
+          <div class="mt-4" id="beds_field">
+            <label for="beds" class="block text-sm font-medium text-gray-700">Jumlah Tempat Tidur</label>
+            <input type="number" id="beds" name="beds"
+              class="block w-full border-gray-300 rounded-md shadow-sm">
+          </div>
+
+          <!-- Jumlah Kamar Mandi (Hanya untuk Penginapan) -->
+          <div class="mt-4" id="bathrooms_field">
+            <label for="bathrooms" class="block text-sm font-medium text-gray-700">Jumlah Kamar Mandi</label>
+            <input type="number" id="bathrooms" name="bathrooms"
+              class="block w-full border-gray-300 rounded-md shadow-sm">
           </div>
 
           <!-- Fasilitas -->
           <div class="mt-4">
-            <x-input-label for="facilities" :value="__('Fasilitas')" />
-            <textarea id="facilities" name="facilities"
-              class="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              required>{{ old('facilities') }}</textarea>
-            <x-input-error :messages="$errors->get('facilities')" class="mt-2" />
+            <label for="facilities" class="block text-sm font-medium text-gray-700">Fasilitas</label>
+            <textarea id="facilities" name="facilities" class="block w-full border-gray-300 rounded-md shadow-sm"></textarea>
           </div>
 
           <!-- Kapasitas Maksimal -->
           <div class="mt-4">
-            <x-input-label for="max_guest" :value="__('Kapasitas Maksimal')" />
-            <x-text-input type="number" id="max_guest" name="max_guest" class="block w-full"
-              value="{{ old('max_guest') }}" required />
-            <x-input-error :messages="$errors->get('max_guest')" class="mt-2" />
+            <label for="max_guest" class="block text-sm font-medium text-gray-700">Kapasitas Maksimal</label>
+            <input type="number" id="max_guest" name="max_guest"
+              class="block w-full border-gray-300 rounded-md shadow-sm">
           </div>
 
           <!-- Submit Button -->
           <div class="mt-4">
-            <x-primary-button class="float-right">
-              {{ __('Tambah Properti') }}
-            </x-primary-button>
+            <button type="submit" class="float-right bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+              Tambah Properti
+            </button>
             <a href="{{ route('properties.index') }}"
-              class="float-right px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Back</a>
+              class="float-right px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 mr-2">
+              Kembali
+            </a>
           </div>
 
         </form>
       </div>
     </div>
   </div>
+
+  <!-- Script untuk Menyembunyikan/Menampilkan Input -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let jenisSelect = document.getElementById('jenis');
+      let penginapanField = document.getElementById('penginapan_field');
+      let aulaField = document.getElementById('aula_field');
+      let typeField = document.getElementById('type_field');
+      let penginapanInput = document.getElementById('penginapan_id');
+      let aulaInput = document.getElementById('aula_id');
+      let bedsField = document.getElementById('beds_field');
+      let bathroomsField = document.getElementById('bathrooms_field');
+
+      function toggleFields() {
+        let jenis = jenisSelect.value;
+
+        if (jenis === 'penginapan') {
+          aulaInput.value = '';
+          penginapanField.style.display = 'block';
+          aulaField.style.display = 'none';
+          typeField.style.display = 'block';
+          bedsField.style.display = 'block';
+          bathroomsField.style.display = 'block';
+        } else if (jenis === 'aula') {
+          penginapanInput.value = '';
+          penginapanField.style.display = 'none';
+          aulaField.style.display = 'block';
+          typeField.style.display = 'none';
+          bedsField.style.display = 'none';
+          bathroomsField.style.display = 'none';
+        } else {
+          penginapanField.style.display = 'none';
+          aulaField.style.display = 'none';
+          typeField.style.display = 'none';
+          bedsField.style.display = 'none';
+          bathroomsField.style.display = 'none';
+        }
+      }
+
+      jenisSelect.addEventListener('change', toggleFields);
+
+      // Panggil saat halaman pertama kali dimuat
+      toggleFields();
+    });
+  </script>
+
 </x-app-layout>

@@ -12,7 +12,9 @@ class Propertie extends Model
     protected $table = 'properties';
 
     protected $fillable = [
+        'jenis',
         'penginapan_id',
+        'aula_id',
         'type',
         'beds',
         'bathrooms',
@@ -23,5 +25,10 @@ class Propertie extends Model
     public function penginapan()
     {
         return $this->belongsTo(Penginapan::class, 'penginapan_id');
+    }
+
+    public function aula()
+    {
+        return $this->belongsTo(Aula::class, 'aula_id');
     }
 }

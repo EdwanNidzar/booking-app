@@ -22,4 +22,9 @@ class Aula extends Model
     {
         return $this->belongsTo(User::class, 'host_id');
     }
+
+    public function properties()
+    {
+        return $this->hasMany(Propertie::class, 'aula_id');
+    }
 }

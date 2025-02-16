@@ -21,10 +21,8 @@
         <table class="w-full whitespace-no-wrap">
           <thead>
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase bg-gray-50 border-b">
-              <th class="px-4 py-3">Nama Penginapan</th>
-              <th class="px-4 py-3">Tipe</th>
-              <th class="px-4 py-3">Tempat Tidur</th>
-              <th class="px-4 py-3">Kamar Mandi</th>
+              <th class="px-4 py-3">Nama Properti</th>
+              <th class="px-4 py-3">Jenis</th>
               <th class="px-4 py-3">Fasilitas</th>
               <th class="px-4 py-3">Maksimal Tamu</th>
               <th class="px-4 py-3">Action</th>
@@ -33,11 +31,17 @@
           <tbody class="bg-white divide-y">
             @foreach ($properties as $property)
               <tr class="text-gray-700">
-                <td class="px-4 py-3 text-sm">{{ $property->penginapan->nama_penginapan }}</td>
-                <td class="px-4 py-3 text-sm">{{ $property->type }}</td>
-                <td class="px-4 py-3 text-sm">{{ $property->beds }}</td>
-                <td class="px-4 py-3 text-sm">{{ $property->bathrooms }}</td>
-                <td class="px-4 py-3 text-sm">{{ $property->facilities }}</td>
+                <td class="px-4 py-3 text-sm">
+                  @if ($property->penginapan)
+                    {{ $property->penginapan->nama_penginapan }}
+                  @elseif($property->aula)
+                    {{ $property->aula->nama_aula }}
+                  @else
+                    -
+                  @endif
+                </td>
+                <td class="px-4 py-3 text-sm capitalize">{{ $property->jenis }}</td>
+                <td class="px-4 py-3 text-sm">{{ $property->facilities ?? '-' }}</td>
                 <td class="px-4 py-3 text-sm">{{ $property->max_guest }}</td>
                 <td class="px-4 py-3 text-sm text-center">
                   <div class="flex justify-center space-x-2">
