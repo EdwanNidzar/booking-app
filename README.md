@@ -84,6 +84,12 @@ Open new terminal
   npm run dev
 ```
 
+### Running the Scheduler Locally
+
+```bash
+  php artisan schedule:work
+```
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
