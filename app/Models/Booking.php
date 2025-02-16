@@ -30,4 +30,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Penginapan::class, 'penginapan_id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

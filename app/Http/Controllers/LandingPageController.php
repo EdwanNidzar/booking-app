@@ -46,6 +46,7 @@ class LandingPageController extends Controller
                             $q->where('check_in', '<=', $request->tanggal_checkin)->where('check_out', '>=', $request->tanggal_checkout);
                         });
                 })
+                ->whereIn('status', ['pending', 'approved'])
                 ->exists();
 
             if ($existingBooking) {
@@ -66,5 +67,12 @@ class LandingPageController extends Controller
             // Use the $booking variable
             return redirect()->route('landing-page')->with('success', 'Pemesanan berhasil! Tunggu konfirmasi dari pemilik penginapan.')->with('booking', $booking);
         });
+    }
+
+    public function receipt()
+    {
+        $booking = Booking::with('user', 'penginapan')->where('user_id', auth()->id())->where('status', 'approved')->get();
+
+        return response()->json($booking);
     }
 }

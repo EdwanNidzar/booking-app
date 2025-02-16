@@ -8,6 +8,7 @@ use App\Http\Controllers\PropertieController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landing-page');
 Route::post('/booking/{id}', [LandingPageController::class, 'booking'])->name('booking');
+Route::get('/receipt', [LandingPageController::class, 'receipt'])->name('receipt');
 
 Route::get('/dashboard', function () {
     return Auth::check() && Auth::user()->hasRole('user') ? redirect()->route('landing-page') : view('dashboard');
@@ -47,5 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('bookings/{booking}/approved', [BookingController::class, 'updateStatusApproved'])->name('bookings.approved');
     Route::patch('bookings/{booking}/rejected', [BookingController::class, 'updateStatusRejected'])->name('bookings.rejected');
 });
+
+Route::get('/cart', [BookingController::class, 'cart'])->name('cart');
+
+Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+Route::get('/payments/create/{id}', [PaymentController::class, 'create'])->name('payments.create');
+Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
 
 require __DIR__.'/auth.php';

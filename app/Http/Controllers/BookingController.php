@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -44,5 +45,13 @@ class BookingController extends Controller
         return redirect()->back()->with('success', 'Status booking berhasil ditolak.');
     }
 
+    public function cart()
+    {
+        $bookings = Booking::with('penginapan')->where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->get();
+
+        return response()->json($bookings);
+    }
 
 }
