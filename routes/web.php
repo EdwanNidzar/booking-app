@@ -9,6 +9,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AulaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,5 +56,7 @@ Route::get('/cart', [BookingController::class, 'cart'])->name('cart');
 Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
 Route::get('/payments/create/{id}', [PaymentController::class, 'create'])->name('payments.create');
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+
+Route::resource('/aula', AulaController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
