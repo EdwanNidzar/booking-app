@@ -6,6 +6,7 @@ use App\Models\Penginapan;
 use App\Models\Propertie;
 use App\Models\Aula;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PropertieController extends Controller
 {
@@ -121,5 +122,15 @@ class PropertieController extends Controller
     {
         Propertie::findOrFail($id)->delete();
         return redirect()->route('properties.index')->with('success', 'Property deleted successfully.');
+    }
+    
+    /**
+     * report propertie
+     */
+    public function reportProperties()
+    {
+        $properties = Propertie::with(['penginapan','aula'])->orderBy('id', 'desc')->paginate(5);
+        $pdf = PDF::loadView('properties.report', compact('properties'));
+        return $pdf->stream('properties-report.pdf');
     }
 }

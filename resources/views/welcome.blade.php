@@ -346,7 +346,7 @@
                 receiptList.innerHTML += `
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
-                    <a href="#" class="btn btn-secondary btn-sm">Print Receipt</a>
+                    <a href="${baseUrl}/printReceipt/${booking.id}" class="btn btn-secondary btn-sm">Print Receipt</a>
                 </li>`;
               });
             }

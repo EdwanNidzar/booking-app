@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
@@ -52,6 +53,13 @@ class BookingController extends Controller
             ->get();
 
         return response()->json($bookings);
+    }
+
+    public function reportBooking()
+    {
+        $bookings = Booking::with('user', 'penginapan', 'aula')->orderBy('id', 'desc')->get();
+        $pdf = PDF::loadView('bookings.report', compact('bookings'));
+        return $pdf->stream('report-booking.pdf');
     }
 
 }

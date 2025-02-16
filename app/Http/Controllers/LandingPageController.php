@@ -7,6 +7,8 @@ use App\Models\Penginapan;
 use Illuminate\Support\Facades\DB;
 use App\Models\Booking;
 use App\Models\Aula;
+use App\Models\Payment;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LandingPageController extends Controller
 {
@@ -101,5 +103,12 @@ class LandingPageController extends Controller
         $booking = Booking::with('user', 'penginapan', 'aula')->where('user_id', auth()->id())->where('status', 'approved')->get();
 
         return response()->json($booking);
+    }
+
+    public function printReceipt($id)
+    {
+        $payments = Payment::with('booking')->where('booking_id', $id)->firstOrFail();
+        $pdf = PDF::loadView('payments.receipt', compact('payments'));
+        return $pdf->download('receipt.pdf');
     }
 }

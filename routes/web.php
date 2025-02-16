@@ -25,6 +25,8 @@ use App\Http\Controllers\AulaController;
 Route::get('/', [LandingPageController::class, 'index'])->name('landing-page');
 Route::post('/booking/{id}', [LandingPageController::class, 'booking'])->name('booking');
 Route::get('/receipt', [LandingPageController::class, 'receipt'])->name('receipt');
+Route::get('/reportBooking', [BookingController::class, 'reportBooking'])->name('reportBooking');
+Route::get('/printReceipt/{id}', [LandingPageController::class, 'printReceipt'])->name('printReceipt');
 
 Route::get('/dashboard', function () {
     return Auth::check() && Auth::user()->hasRole('user') ? redirect()->route('landing-page') : view('dashboard');
@@ -41,8 +43,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('penginapan', PenginapanController::class)->middleware('auth');
+Route::get('/reportPenginapan', [PenginapanController::class, 'reportPenginapan'])->name('reportPenginapan');
 
 Route::resource('properties', PropertieController::class)->middleware('auth');
+Route::get('/reportProperties', [PropertieController::class, 'reportProperties'])->name('reportProperties');
 
 Route::middleware('auth')->group(function () {
     Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
@@ -58,5 +62,6 @@ Route::get('/payments/create/{id}', [PaymentController::class, 'create'])->name(
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
 
 Route::resource('/aula', AulaController::class)->middleware('auth');
+Route::get('/reportAula', [AulaController::class, 'reportAula'])->name('reportAula');
 
 require __DIR__.'/auth.php';

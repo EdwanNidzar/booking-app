@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AulaController extends Controller
 {
@@ -109,5 +110,15 @@ class AulaController extends Controller
         $aula->delete();
         Storage::disk('public')->delete($aula->photo);
         return redirect()->route('aula.index')->with('success', 'Aula berhasil dihapus');
+    }
+
+    /**
+     * Report aula
+     */
+    public function reportAula()
+    {
+        $aulas = Aula::with('host')->get();
+        $pdf = PDF::loadView('aula.report', compact('aulas'));
+        return $pdf->stream('report_aula.pdf');
     }
 }

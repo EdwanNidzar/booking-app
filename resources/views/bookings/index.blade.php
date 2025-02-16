@@ -7,6 +7,14 @@
     <h1 class="text-2xl font-semibold text-gray-800">Daftar Booking</h1>
     <x-alert-notification />
 
+    <div class="mt-4 mb-4 float-right">
+
+      <a href="{{ route('reportBooking') }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+        target="_blank">
+        Export PDF
+      </a>
+    </div>
+
     <div class="overflow-hidden mb-8 w-full rounded-lg border shadow-xs">
       <div class="overflow-x-auto w-full">
         <table class="w-full whitespace-no-wrap">
@@ -28,7 +36,7 @@
                 <td class="px-4 py-3 text-sm">{{ $booking->user->name }}</td>
                 <td class="px-4 py-3 text-sm">
                   {{ $booking->penginapan ? $booking->penginapan->nama_penginapan : ($booking->aula ? $booking->aula->nama_aula : '-') }}
-                </td>                
+                </td>
                 <td class="px-4 py-3 text-sm">{{ \Carbon\Carbon::parse($booking->check_in)->format('d M Y') }}</td>
                 <td class="px-4 py-3 text-sm">{{ \Carbon\Carbon::parse($booking->check_out)->format('d M Y') }}</td>
                 <td class="px-4 py-3 text-sm">{{ $booking->total_guest }}</td>

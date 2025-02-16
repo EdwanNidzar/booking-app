@@ -10,7 +10,7 @@
     <div class="mt-4 mb-4 float-right">
       <a href="{{ route('aula.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Tambah
         Aula</a>
-      <a href="#" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600" target="_blank">Export
+      <a href="{{ route('reportAula') }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600" target="_blank">Export
         PDF</a>
     </div>
 

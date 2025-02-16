@@ -11,7 +11,7 @@
       <a href="{{ route('properties.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
         Tambah Properti
       </a>
-      <a href="#" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600" target="_blank">
+      <a href="{{ route('reportProperties') }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600" target="_blank">
         Export PDF
       </a>
     </div>

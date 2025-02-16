@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penginapan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenginapanController extends Controller
 {
@@ -115,4 +116,15 @@ class PenginapanController extends Controller
         $penginapan->delete();
         return redirect()->route('penginapan.index')->with('success', 'Penginapan berhasil dihapus');
     }
+
+    /**
+     * report 
+     */
+    public function reportPenginapan()
+    {
+        $penginapans = Penginapan::with('host')->orderBy('id', 'desc')->get();
+        $pdf = PDF::loadView('penginapan.pdf', compact('penginapans'));
+        return $pdf->stream('report_penginapan.pdf');
+    }
+
 }
