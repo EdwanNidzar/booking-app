@@ -39,10 +39,10 @@
           <span>{{ Auth::user()->name }}</span>
         @else
           <a href="{{ route('login') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-              fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-person" viewBox="0 0 16 16">
               <path
-          d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
             </svg>
           </a>
         @endif
@@ -101,6 +101,7 @@
         Belum ada penginapan yang tersedia.
       </div>
     @else
+      <h2 class="text-center mt-5">Daftar Penginapan</h2>
       <div class="row">
         @foreach ($penginapans as $penginapan)
           <div class="col-md-4 mb-4">
@@ -179,8 +180,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="total_guest" class="form-label">Jumlah Tamu</label>
-                      <input type="number" class="form-control" name="total_guest" min="1"
-                        max="{{ $penginapan->properties->first()->max_guest }}" required>
+                      <input type="number" class="form-control" name="total_guest" min="1" required>
                     </div>
                     <button type="submit" class="btn btn-success">Pesan Sekarang</button>
                   </form>
@@ -190,6 +190,99 @@
           </div>
         @endforeach
       </div>
+    @endif
+
+    @if ($aulas->count() === 0)
+      <div class="alert alert-warning mt-5" role="alert">
+        Belum ada aula yang tersedia.
+      </div>
+    @else
+      <h2 class="text-center mt-5">Daftar Aula</h2>
+      <div class="row">
+        @foreach ($aulas as $aula)
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+              <img src="{{ asset('storage/' . $aula->photo) }}" class="card-img-top" alt="Gambar Aula">
+              <div class="card-body">
+                <h5 class="card-title">{{ $aula->nama_aula }}</h5>
+                <p class="card-text text-muted">{{ $aula->location }}</p>
+                <p class="card-text fw-bold">Rp {{ number_format($aula->price, 0, ',', '.') }} / jam</p>
+                <button class="btn btn-primary" data-bs-toggle="modal"
+                  data-bs-target="#detailModalAula{{ $aula->id }}">Detail</button>
+                @if (Auth::check())
+                  <button class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#orderModalAula{{ $aula->id }}">Pesan</button>
+                @else
+                  <a href="{{ route('login') }}" class="btn btn-success">Login untuk Pesan</a>
+                @endif
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Detail Aula -->
+          <div class="modal fade" id="detailModalAula{{ $aula->id }}" tabindex="-1"
+            aria-labelledby="modalLabel{{ $aula->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalLabel{{ $aula->id }}">{{ $aula->nama_aula }}
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <img src="{{ asset('storage/' . $aula->photo) }}" class="img-fluid rounded mb-3"
+                    alt="Gambar Aula">
+                  <p><strong>Lokasi:</strong> {{ $aula->location }}</p>
+                  <p><strong>Harga:</strong> Rp {{ number_format($aula->price, 0, ',', '.') }} / jam</p>
+                  <p><strong>Fasilitas:</strong></p>
+                  <ul>
+                    @foreach ($aula->properties as $property)
+                      <li>Kapasitas : {{ $property->max_guest }} orang</li>
+                      <li>Fasilitas Lainnya : {{ $property->facilities }}</li>
+                    @endforeach
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Order Aula -->
+          <div class="modal fade" id="orderModalAula{{ $aula->id }}" tabindex="-1"
+            aria-labelledby="orderLabel{{ $aula->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="orderLabel{{ $aula->id }}">Pesan
+                    {{ $aula->nama_aula }}
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="{{ route('booking', $aula->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="aula_id" value="{{ $aula->id }}">
+                    <div class="mb-3">
+                      <label for="tanggal_checkin" class="form-label">Tanggal Check-in</label>
+                      <input type="date" class="form-control" name="tanggal_checkin" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="tanggal_checkout" class="form-label">Tanggal Check-out</label>
+                      <input type="date" class="form-control" name="tanggal_checkout" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="total_guest" class="form-label">Jumlah Tamu</label>
+                      <input type="number" class="form-control" name="total_guest" min="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Pesan Sekarang</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endforeach
     @endif
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -211,9 +304,12 @@
               cartList.innerHTML = "<li class='list-group-item text-center'>Tidak ada booking pending</li>";
             } else {
               data.forEach(booking => {
+                let namaBooking = booking.penginapan ? booking.penginapan.nama_penginapan : (booking.aula ?
+                  booking.aula.nama_aula : 'Unknown');
+
                 cartList.innerHTML += `
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                      ${booking.penginapan.nama_penginapan} - ${booking.check_in} s/d ${booking.check_out}
+                      ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
                       <span class="badge bg-warning text-dark">${booking.status}</span>
                       <a href="${baseUrl}/payments/create/${booking.id}" class="btn btn-danger btn-sm">Bayar</a>
                   </li>`;
@@ -238,11 +334,20 @@
               receiptList.innerHTML = "<li class='list-group-item text-center'>Tidak ada booking</li>";
             } else {
               data.forEach(booking => {
+                let namaBooking = "Unknown";
+
+                // Prioritaskan penginapan jika ada, jika tidak ada baru cek aula
+                if (booking.penginapan && booking.penginapan.nama_penginapan) {
+                  namaBooking = booking.penginapan.nama_penginapan;
+                } else if (booking.aula && booking.aula.nama_aula) {
+                  namaBooking = booking.aula.nama_aula;
+                }
+
                 receiptList.innerHTML += `
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                      ${booking.penginapan.nama_penginapan} - ${booking.check_in} s/d ${booking.check_out}
-                      <a href="#" class="btn btn-secondary btn-sm">Print Receipt</a>
-                  </li>`;
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
+                    <a href="#" class="btn btn-secondary btn-sm">Print Receipt</a>
+                </li>`;
               });
             }
           });

@@ -27,4 +27,9 @@ class Aula extends Model
     {
         return $this->hasMany(Propertie::class, 'aula_id');
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'aula_id');
+    }
 }

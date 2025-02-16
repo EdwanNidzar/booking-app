@@ -13,7 +13,7 @@ class RejectPendingBookings extends Command
 
     public function handle()
     {
-        $time = Carbon::now()->subMinutes(3);
+        $time = Carbon::now()->subMinutes(3); // subSeconds(10); // subMinutes(3); 
 
         Booking::where('status', 'pending')
             ->where('created_at', '<', $time)

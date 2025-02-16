@@ -10,7 +10,7 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::with('user', 'penginapan')->orderBy('id', 'desc')->paginate(5);
+        $bookings = Booking::with('user', 'penginapan', 'aula')->orderBy('id', 'desc')->paginate(5);
         return view('bookings.index', compact('bookings'));
     }
 
@@ -47,7 +47,7 @@ class BookingController extends Controller
 
     public function cart()
     {
-        $bookings = Booking::with('penginapan')->where('user_id', Auth::id())
+        $bookings = Booking::with('penginapan', 'aula')->where('user_id', Auth::id())
             ->where('status', 'pending')
             ->get();
 

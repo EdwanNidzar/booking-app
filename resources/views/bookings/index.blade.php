@@ -13,7 +13,7 @@
           <thead>
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase bg-gray-50 border-b">
               <th class="px-4 py-3">Nama Pengguna</th>
-              <th class="px-4 py-3">Nama Penginapan</th>
+              <th class="px-4 py-3">Nama Penginapan / Aula</th>
               <th class="px-4 py-3">Check-in</th>
               <th class="px-4 py-3">Check-out</th>
               <th class="px-4 py-3">Jumlah Tamu</th>
@@ -26,7 +26,9 @@
             @foreach ($bookings as $booking)
               <tr class="text-gray-700">
                 <td class="px-4 py-3 text-sm">{{ $booking->user->name }}</td>
-                <td class="px-4 py-3 text-sm">{{ $booking->penginapan->nama_penginapan }}</td>
+                <td class="px-4 py-3 text-sm">
+                  {{ $booking->penginapan ? $booking->penginapan->nama_penginapan : ($booking->aula ? $booking->aula->nama_aula : '-') }}
+                </td>                
                 <td class="px-4 py-3 text-sm">{{ \Carbon\Carbon::parse($booking->check_in)->format('d M Y') }}</td>
                 <td class="px-4 py-3 text-sm">{{ \Carbon\Carbon::parse($booking->check_out)->format('d M Y') }}</td>
                 <td class="px-4 py-3 text-sm">{{ $booking->total_guest }}</td>

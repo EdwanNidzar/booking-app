@@ -14,6 +14,7 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'penginapan_id',
+        'aula_id',
         'check_in',
         'check_out',
         'total_guest',
@@ -34,5 +35,10 @@ class Booking extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function aula()
+    {
+        return $this->belongsTo(Aula::class, 'aula_id');
     }
 }

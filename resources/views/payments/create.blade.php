@@ -24,11 +24,11 @@
             <label class="form-label">Nama:</label>
             <input type="text" name="user_id" class="form-control" value="{{ $bookings->user->name }}" required>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Nama Penginapan:</label>
-            <input type="text" name="penginapan_id" class="form-control"
-              value="{{ $bookings->penginapan->nama_penginapan }}" readonly>
-          </div>
+            <div class="mb-3">
+            <label class="form-label">Nama Penginapan atau Nama Aula:</label>
+            <input type="text" name="penginapan_aula" class="form-control"
+              value="{{ $bookings->penginapan->nama_penginapan ?? $bookings->aula->nama_aula }}" readonly>
+            </div>
           <div class="mb-3">
             <label class="form-label">Check In:</label>
             <input type="text" name="check_in" class="form-control" value="{{ $bookings->check_in }}" readonly>
