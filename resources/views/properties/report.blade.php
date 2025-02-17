@@ -32,7 +32,9 @@
 
 <body>
   <div class="container">
-    <h1>Laporan Property</h1>
+    <img src="{{ public_path('svg/kop-surat.svg') }}" alt="Kop Surat" style="width: 100%;">
+    <hr style="border: 1px solid black;">
+    <h2 style="text-align: center;">Laporan Property</h2>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -61,6 +63,11 @@
         @endforeach
       </tbody>
     </table>
+
+    <div style="margin-top: 20px; text-align: right;">
+      <p>Banjarmasin, {{ date('d F Y') }}</p>
+      <p style="margin-top: 70px;">(_______________________)</p>
+    </div>
   </div>
 </body>
 

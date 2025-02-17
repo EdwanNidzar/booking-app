@@ -109,6 +109,6 @@ class LandingPageController extends Controller
     {
         $payments = Payment::with('booking')->where('booking_id', $id)->firstOrFail();
         $pdf = PDF::loadView('payments.receipt', compact('payments'));
-        return $pdf->download('receipt.pdf');
+        return $pdf->stream('receipt.pdf');
     }
 }

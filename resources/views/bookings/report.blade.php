@@ -31,6 +31,8 @@
 </head>
 
 <body>
+  <img src="{{ public_path('svg/kop-surat.svg') }}" alt="Kop Surat" style="width: 100%;">
+  <hr style="border: 1px solid black;">
   <h2 style="text-align: center;">Laporan Bookings</h2>
   <table>
     <thead>
@@ -68,6 +70,12 @@
       @endforeach
     </tbody>
   </table>
+
+  <div style="margin-top: 20px; text-align: right;">
+    <p>Banjarmasin, {{ date('d F Y') }}</p>
+    <p style="margin-top: 70px;">(_______________________)</p>
+  </div>
+
 </body>
 
 </html>

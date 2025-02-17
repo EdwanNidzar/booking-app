@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daftar Penginapan</title>
+  <link rel="icon" href="{{ asset('svg/logo.svg') }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     .card-img-top {
@@ -206,7 +207,7 @@
               <div class="card-body">
                 <h5 class="card-title">{{ $aula->nama_aula }}</h5>
                 <p class="card-text text-muted">{{ $aula->location }}</p>
-                <p class="card-text fw-bold">Rp {{ number_format($aula->price, 0, ',', '.') }} / jam</p>
+                <p class="card-text fw-bold">Rp {{ number_format($aula->price, 0, ',', '.') }} / hari</p>
                 <button class="btn btn-primary" data-bs-toggle="modal"
                   data-bs-target="#detailModalAula{{ $aula->id }}">Detail</button>
                 @if (Auth::check())
@@ -346,7 +347,7 @@
                 receiptList.innerHTML += `
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
-                    <a href="${baseUrl}/printReceipt/${booking.id}" class="btn btn-secondary btn-sm">Print Receipt</a>
+                    <a href="${baseUrl}/printReceipt/${booking.id}" target="_blank" class="btn btn-secondary btn-sm">Print Receipt</a>
                 </li>`;
               });
             }

@@ -1,7 +1,8 @@
 <aside class="z-20 hidden w-64 overflow-y-auto bg-white md:block flex-shrink-0">
     <div class="py-4 text-gray-500">
         <a class="ml-6 text-lg font-bold text-gray-800" href="{{ route('dashboard') }}">
-            Windmill
+            <img src="{{ asset('svg/logo.svg') }}" alt="Logo" class="h-8 w-8 inline-block mr-2">
+            BPPMDDTT
         </a>
 
         <ul class="mt-6">

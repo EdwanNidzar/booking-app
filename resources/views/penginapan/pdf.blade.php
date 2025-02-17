@@ -31,29 +31,47 @@
 </head>
 
 <body>
+  <img src="{{ public_path('svg/kop-surat.svg') }}" alt="Kop Surat" style="width: 100%;">
+  <hr style="border: 1px solid black;">
   <h2 style="text-align: center;">Laporan Penginapan</h2>
   <table>
     <thead>
       <tr>
+        <th>Photo</th>
         <th>Pemilik</th>
         <th>Nama Penginapan</th>
         <th>Lokasi</th>
         <th>Harga</th>
         <th>Status</th>
+        <th>Fasilitas</th>
       </tr>
     </thead>
     <tbody>
       @foreach ($penginapans as $penginapan)
         <tr>
+          <td><img src="{{ public_path('storage/' . $penginapan->photo) }}" alt="Photo" style="width: 100px;"></td>
           <td>{{ $penginapan->host->name }}</td>
           <td>{{ $penginapan->nama_penginapan }}</td>
           <td>{{ $penginapan->location }}</td>
           <td>Rp{{ number_format($penginapan->price, 0, ',', '.') }}</td>
           <td>{{ $penginapan->status == 'active' ? 'Tersedia' : 'Tidak Tersedia' }}</td>
+          <td>
+            @if ($penginapan->properties->count())
+              {{ $penginapan->properties->pluck('facilities')->join(', ') }}
+            @else
+              -
+            @endif
+          </td>
         </tr>
       @endforeach
     </tbody>
   </table>
+
+  <div style="margin-top: 20px; text-align: right;">
+    <p>Banjarmasin, {{ date('d F Y') }}</p>
+    <p style="margin-top: 70px;">(_______________________)</p>
+  </div>
+
 </body>
 
 </html>
