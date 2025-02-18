@@ -60,6 +60,8 @@ Route::get('/cart', [BookingController::class, 'cart'])->name('cart');
 Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
 Route::get('/payments/create/{id}', [PaymentController::class, 'create'])->name('payments.create');
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+Route::patch('/payments/{payment}/approved', [PaymentController::class, 'paymentApprove'])->name('payments.approved');
+Route::patch('/payments/{payment}/rejected', [PaymentController::class, 'paymentReject'])->name('payments.rejected');
 
 Route::resource('/aula', AulaController::class)->middleware('auth');
 Route::get('/reportAula', [AulaController::class, 'reportAula'])->name('reportAula');

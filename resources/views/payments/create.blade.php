@@ -16,7 +16,7 @@
         <h5 class="mb-0">Selesaikan Pembayaran!</h5>
       </div>
       <div class="card-body">
-        <form action="{{ route('payments.store') }}" method="POST">
+        <form action="{{ route('payments.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <input type="hidden" name="booking_id" class="form-control" value="{{ $bookings->id }}" required>
 
@@ -55,6 +55,11 @@
             </select>
           </div>
 
+          <div class="mb-3">
+            <label class="form-label">Bukti Pembayaran:</label>
+            <input type="file" name="payment_proof" class="form-control" required>
+          </div>
+          
           <button type="submit" class="btn btn-primary w-100">Bayar</button>
         </form>
       </div>

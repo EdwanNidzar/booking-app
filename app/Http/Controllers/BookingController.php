@@ -50,6 +50,7 @@ class BookingController extends Controller
     {
         $bookings = Booking::with('penginapan', 'aula')->where('user_id', Auth::id())
             ->where('status', 'pending')
+            ->orWhere('status', 'waiting')
             ->get();
 
         return response()->json($bookings);

@@ -308,11 +308,23 @@
                 let namaBooking = booking.penginapan ? booking.penginapan.nama_penginapan : (booking.aula ?
                   booking.aula.nama_aula : 'Unknown');
 
+                // Determine the badge color based on booking status
+                let badge = '';
+                let bayarButton = ''; // Default button to be empty
+                if (booking.status === 'pending') {
+                  badge = '<span class="badge bg-warning text-dark">' + booking.status + '</span>';
+                  bayarButton =
+                    `<a href="${baseUrl}/payments/create/${booking.id}" class="btn btn-danger btn-sm">Bayar</a>`; // Only show the button if status is pending
+                } else if (booking.status === 'waiting') {
+                  badge = '<span class="badge bg-primary text-white">' + booking.status + '</span>';
+                  // No button when status is waiting
+                }
+
                 cartList.innerHTML += `
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                      ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
-                      <span class="badge bg-warning text-dark">${booking.status}</span>
-                      <a href="${baseUrl}/payments/create/${booking.id}" class="btn btn-danger btn-sm">Bayar</a>
+                    ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
+                    ${badge}
+                    ${bayarButton}
                   </li>`;
               });
             }
@@ -337,18 +349,25 @@
               data.forEach(booking => {
                 let namaBooking = "Unknown";
 
-                // Prioritaskan penginapan jika ada, jika tidak ada baru cek aula
+                // Prioritize penginapan if exists, otherwise check aula
                 if (booking.penginapan && booking.penginapan.nama_penginapan) {
                   namaBooking = booking.penginapan.nama_penginapan;
                 } else if (booking.aula && booking.aula.nama_aula) {
                   namaBooking = booking.aula.nama_aula;
                 }
 
+                // Determine if the button should be displayed based on status
+                let printButton = '';
+                if (booking.status !== 'rejected') {
+                  printButton =
+                    `<a href="${baseUrl}/printReceipt/${booking.id}" target="_blank" class="btn btn-secondary btn-sm">Print Receipt</a>`;
+                }
+
                 receiptList.innerHTML += `
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
-                    <a href="${baseUrl}/printReceipt/${booking.id}" target="_blank" class="btn btn-secondary btn-sm">Print Receipt</a>
-                </li>`;
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      ${namaBooking} - ${booking.check_in} s/d ${booking.check_out}
+                      ${printButton} 
+                  </li>`;
               });
             }
           });

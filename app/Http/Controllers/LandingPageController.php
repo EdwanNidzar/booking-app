@@ -17,7 +17,7 @@ class LandingPageController extends Controller
         $penginapans = Penginapan::with(['host', 'properties'])
             ->where('status', 'active')
             ->whereDoesntHave('bookings', function ($query) {
-                $query->whereIn('status', ['pending', 'approved']);
+                $query->whereIn('status', ['pending', 'approved', 'waiting']);
             })
             ->get();
 

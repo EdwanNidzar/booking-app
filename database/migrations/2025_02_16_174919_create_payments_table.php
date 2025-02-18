@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('payment_method');
             $table->decimal('amount', 10, 2);
             $table->string('status')->default('pending');
+            $table->string('payment_proof')->nullable();
             $table->timestamps();
         });
     }

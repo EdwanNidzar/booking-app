@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('check_out');
             $table->integer('total_guest');
             $table->integer('total_price');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'waiting'])->default('pending');
             $table->timestamps();
         });
     }

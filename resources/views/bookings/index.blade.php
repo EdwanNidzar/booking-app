@@ -46,6 +46,8 @@
                     <span class="px-2 py-1 text-xs font-semibold text-green-700 bg-green-200 rounded-lg">Approved</span>
                   @elseif ($booking->status === 'rejected')
                     <span class="px-2 py-1 text-xs font-semibold text-red-700 bg-red-200 rounded-lg">Rejected</span>
+                  @elseif ($booking->status === 'waiting')
+                    <span class="px-2 py-1 text-xs font-semibold text-blue-700 bg-blue-200 rounded-lg">Waiting</span>
                   @else
                     <span
                       class="px-2 py-1 text-xs font-semibold text-yellow-700 bg-yellow-200 rounded-lg">Pending</span>
